@@ -6,7 +6,7 @@ import (
 )
 
 func TitleToFilename (title string) string {
-        title_clearer := regexp.MustCompile("[^a-zA-Z0-9\\s\\.-_]+")
+        title_clearer := regexp.MustCompile("[^a-zA-Z0-9\\s\\.\\-_]+")
         whitespace_clearer := regexp.MustCompile("\\s+")
 
         out := title_clearer.ReplaceAllString(title, "")
