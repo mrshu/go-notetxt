@@ -17,7 +17,7 @@ func TitleToFilename (title string) string {
 }
 
 func MatchesNoteFilename(filename string) bool {
-        match, _ := regexp.MatchString("[a-zA-Z0-9\\.-]+", filename)
+        match, _ := regexp.MatchString("^[a-zA-Z0-9\\-\\.]+$", filename)
         return match
 }
 
