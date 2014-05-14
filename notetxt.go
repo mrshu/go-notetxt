@@ -4,10 +4,10 @@ import (
         "regexp"
         "strings"
 )
+var title_clearer = regexp.MustCompile("[^a-zA-Z0-9\\s\\.\\-_]+")
+var whitespace_clearer = regexp.MustCompile("\\s+")
 
 func TitleToFilename (title string) string {
-        title_clearer := regexp.MustCompile("[^a-zA-Z0-9\\s\\.\\-_]+")
-        whitespace_clearer := regexp.MustCompile("\\s+")
 
         out := title_clearer.ReplaceAllString(title, "")
         out = strings.ToLower(out)
@@ -16,9 +16,10 @@ func TitleToFilename (title string) string {
         return out
 }
 
+var filename_regex = regexp.MustCompile("^[a-zA-Z0-9\\-\\.]+$")
+
 func MatchesNoteFilename(filename string) bool {
-        match, _ := regexp.MatchString("^[a-zA-Z0-9\\-\\.]+$", filename)
-        return match
+        return filename_regex.MatchString(filename)
 }
 
 type Note struct {
@@ -26,3 +27,4 @@ type Note struct {
         filename string
         categories []string
 }
+
