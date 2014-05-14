@@ -15,3 +15,10 @@ func TitleToFilename (title string) string {
         out = strings.Replace(out, " ", "-", -1)
         return out
 }
+
+type Note struct {
+        name string
+        filename string
+        categories []string
+}
+
