@@ -16,9 +16,13 @@ func TitleToFilename (title string) string {
         return out
 }
 
+func MatchesNoteFilename(filename string) bool {
+        match, _ := regexp.MatchString("[a-zA-Z0-9\\.-]+", filename)
+        return match
+}
+
 type Note struct {
         name string
         filename string
         categories []string
 }
-
