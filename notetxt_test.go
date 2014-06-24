@@ -35,3 +35,10 @@ func TestFilenameMatch(t *testing.T) {
         assert.Equal(t, MatchesNoteFilename(in3), false)
 
 }
+
+func TestNoteParsing(t *testing.T) {
+        var note = ParseNote("./test/", "./test/some-nice-title.rst")
+
+        assert.Equal(t, note.name, "some-nice-title.rst")
+        assert.Equal(t, note.filename, "./test/some-nice-title.rst")
+}
