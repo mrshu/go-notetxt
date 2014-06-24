@@ -41,10 +41,7 @@ func ParseNote(notedir string, filename string) (Note, error) {
         }
 
         defer f.Close()
-        reader, err := bufio.NewReaderSize(f, 4*1024)
-        if err != nil {
-                return note, err
-        }
+        reader := bufio.NewReaderSize(f, 4*1024)
 
         line, prefix, err := reader.ReadLine()
         if err != nil {
