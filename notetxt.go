@@ -28,3 +28,9 @@ type Note struct {
         categories []string
 }
 
+func ParseNote(notedir string, filename string) (Note) {
+        var note = Note{}
+
+        return note
+}
+
