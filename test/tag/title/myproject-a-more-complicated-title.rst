@@ -1,2 +1,1 @@
-MyProject: A more complicated title
------------------------------------
+../../myproject-a-more-complicated-title.rst

@@ -1,2 +1,1 @@
-Some nice title
----------------
+../../some-nice-title.rst
