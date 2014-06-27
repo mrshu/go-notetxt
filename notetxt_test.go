@@ -42,4 +42,5 @@ func TestNoteParsing(t *testing.T) {
         assert.Equal(t, err, nil)
         assert.Equal(t, note.name, "Some nice title")
         assert.Equal(t, note.filename, "./test/some-nice-title.rst")
+        assert.Equal(t, note.categories, []string(nil))
 }
