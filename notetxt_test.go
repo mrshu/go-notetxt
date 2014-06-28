@@ -39,17 +39,23 @@ func TestFilenameMatch(t *testing.T) {
 func TestNoteParsing(t *testing.T) {
         var note, err = ParseNote("./test/", "./test/some-nice-title.rst")
 
+        categories := make([]string, 2)
+        categories[0] = "/tag/general"
+        categories[1] = "/tag/title"
+
         assert.Equal(t, err, nil)
         assert.Equal(t, note.name, "Some nice title")
         assert.Equal(t, note.filename, "./test/some-nice-title.rst")
-        assert.Equal(t, note.categories, []string(nil))
+        assert.Equal(t, note.categories, categories)
 }
 
 func TestFindCategories(t *testing.T) {
         var note = findCategories("./test/", "", "some-nice-title.rst")
+
         categories := make([]string, 2)
         categories[0] = "/tag/general"
         categories[1] = "/tag/title"
+
         assert.Equal(t, note, categories)
 
 }

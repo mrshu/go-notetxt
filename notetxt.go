@@ -6,6 +6,7 @@ import (
         "os"
         "bufio"
         "errors"
+        "path"
         "io/ioutil"
 )
 var title_clearer = regexp.MustCompile("[^a-zA-Z0-9\\s\\.\\-_]+")
@@ -70,6 +71,7 @@ func ParseNote(notedir string, filename string) (Note, error) {
 
         note.name = string(line)
 
+        note.categories = findCategories(notedir, "", path.Base(filename))
 
         return note, nil
 }
