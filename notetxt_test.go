@@ -44,3 +44,12 @@ func TestNoteParsing(t *testing.T) {
         assert.Equal(t, note.filename, "./test/some-nice-title.rst")
         assert.Equal(t, note.categories, []string(nil))
 }
+
+func TestFindCategories(t *testing.T) {
+        var note = findCategories("./test/", "", "some-nice-title.rst")
+        categories := make([]string, 2)
+        categories[0] = "/tag/general"
+        categories[1] = "/tag/title"
+        assert.Equal(t, note, categories)
+
+}

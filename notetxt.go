@@ -6,6 +6,7 @@ import (
         "os"
         "bufio"
         "errors"
+        "io/ioutil"
 )
 var title_clearer = regexp.MustCompile("[^a-zA-Z0-9\\s\\.\\-_]+")
 var whitespace_clearer = regexp.MustCompile("\\s+")
@@ -31,6 +32,21 @@ type Note struct {
         categories []string
 }
 
+func findCategories(notedir string, subdir string, name string) []string {
+        var out []string
+        files, _ := ioutil.ReadDir(notedir + "/" + subdir + "/")
+        for _, f := range files {
+                if f.IsDir() {
+                        out = append(out, findCategories(notedir, subdir + "/" + f.Name(), name)...)
+                } else {
+                        if f.Name() == name && subdir != "" {
+                                out = append(out, subdir)
+                        }
+                }
+        }
+        return out
+}
+
 func ParseNote(notedir string, filename string) (Note, error) {
         var note = Note{}
         note.filename = filename
@@ -53,6 +69,7 @@ func ParseNote(notedir string, filename string) (Note, error) {
         }
 
         note.name = string(line)
+
 
         return note, nil
 }
