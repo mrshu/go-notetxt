@@ -7,6 +7,7 @@ import (
         "bufio"
         "errors"
         "path"
+        "path/filepath"
         "io/ioutil"
 )
 var title_clearer = regexp.MustCompile("[^a-zA-Z0-9\\s\\.\\-_]+")
@@ -36,7 +37,7 @@ type Note struct {
 func readFilesInDir(dir string, subdir string) ([]string, []string) {
         var symlinks []string
         var files []string
-        contents, _ := ioutil.ReadDir(dir + "/" + subdir + "/")
+        contents, _ := ioutil.ReadDir(dir + "/" + subdir)
         for _, f := range contents {
                 if f.IsDir() {
                         t_files, t_syms := readFilesInDir(dir, subdir + "/" + f.Name())
@@ -44,27 +45,28 @@ func readFilesInDir(dir string, subdir string) ([]string, []string) {
                         symlinks = append(symlinks, t_syms...)
                 } else {
                         if f.Mode() & os.ModeSymlink != 0 {
-                                symlinks = append(symlinks, dir + "/" + subdir + "/" + f.Name())
+                                symlinks = append(symlinks, dir + subdir + "/" + f.Name())
                         } else {
-                                files = append(files, dir + "/" + subdir + "/" + f.Name())
+                                files = append(files, dir + subdir + "/" + f.Name())
                         }
                 }
         }
         return files, symlinks
 }
 
-func findCategories(notedir string, subdir string, name string) []string {
+func findCategories(filename string, notedir string, symlinks []string) []string {
         var out []string
-        files, _ := ioutil.ReadDir(notedir + "/" + subdir + "/")
-        for _, f := range files {
-                if f.IsDir() {
-                        out = append(out, findCategories(notedir, subdir + "/" + f.Name(), name)...)
-                } else {
-                        if f.Name() == name && subdir != "" {
-                                out = append(out, subdir)
-                        }
+        for _, f := range symlinks {
+                p, err := filepath.EvalSymlinks(f)
+                if err != nil {
+                        panic(err);
+                }
+
+                if "./" + p == filename {
+                        out = append(out, strings.Replace("./" + path.Dir(f), notedir, "", 1))
                 }
         }
+
         return out
 }
 
@@ -91,7 +93,9 @@ func ParseNote(notedir string, filename string) (Note, error) {
 
         note.name = string(line)
 
-        note.categories = findCategories(notedir, "", path.Base(filename))
+        _, symlinks := readFilesInDir(notedir, "")
+
+        note.categories = findCategories(filename, notedir, symlinks)
 
         return note, nil
 }

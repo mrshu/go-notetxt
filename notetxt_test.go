@@ -38,7 +38,7 @@ func TestFilenameMatch(t *testing.T) {
 }
 
 func TestNoteParsing(t *testing.T) {
-        var note, err = ParseNote("./test/", "./test/some-nice-title.rst")
+        var note, err = ParseNote("./test", "./test/some-nice-title.rst")
 
         categories := make([]string, 2)
         categories[0] = "/tag/general"
@@ -51,7 +51,8 @@ func TestNoteParsing(t *testing.T) {
 }
 
 func TestFindCategories(t *testing.T) {
-        var note = findCategories("./test/", "", "some-nice-title.rst")
+        _, symlinks := readFilesInDir("./test", "")
+        var note = findCategories("./test/some-nice-title.rst", "./test", symlinks)
 
         categories := make([]string, 2)
         categories[0] = "/tag/general"
@@ -62,5 +63,5 @@ func TestFindCategories(t *testing.T) {
 }
 
 func TestDirListing(t *testing.T) {
-        fmt.Println(readFilesInDir("./test/", ""))
+        fmt.Println(readFilesInDir("./test", ""))
 }
