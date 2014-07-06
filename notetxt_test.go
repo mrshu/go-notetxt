@@ -37,7 +37,8 @@ func TestFilenameMatch(t *testing.T) {
 }
 
 func TestNoteParsing(t *testing.T) {
-        var note, err = ParseNote("./test", "./test/some-nice-title.rst")
+        _, symlinks := readFilesInDir("./test", "")
+        var note, err = ParseNote("./test", "./test/some-nice-title.rst", symlinks)
 
         categories := make([]string, 2)
         categories[0] = "/tag/general"

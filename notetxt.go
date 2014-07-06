@@ -70,7 +70,7 @@ func findCategories(filename string, notedir string, symlinks []string) []string
         return out
 }
 
-func ParseNote(notedir string, filename string) (Note, error) {
+func ParseNote(notedir string, filename string, symlinks []string) (Note, error) {
         var note = Note{}
         note.filename = filename
 
@@ -93,7 +93,6 @@ func ParseNote(notedir string, filename string) (Note, error) {
 
         note.name = string(line)
 
-        _, symlinks := readFilesInDir(notedir, "")
 
         note.categories = findCategories(filename, notedir, symlinks)
 
