@@ -2,7 +2,6 @@ package notetxt
 
 import (
         "testing"
-        "fmt"
         "github.com/stretchr/testify/assert"
 )
 
@@ -63,5 +62,19 @@ func TestFindCategories(t *testing.T) {
 }
 
 func TestDirListing(t *testing.T) {
-        fmt.Println(readFilesInDir("./test", ""))
+        tfiles, tsymlinks := readFilesInDir("./test", "")
+
+        files := make([]string, 3)
+        files[0] = "./test/myproject-a-more-complicated-title.rst"
+        files[1] = "./test/some-nice-title.rst"
+        files[2] = "./test/tag/general/just-a-tag.rst"
+
+        symlinks := make([]string, 4)
+        symlinks[0] = "./test/tag/general/some-nice-title.rst"
+        symlinks[1] = "./test/tag/project/myproject-a-more-complicated-title.rst"
+        symlinks[2] = "./test/tag/title/myproject-a-more-complicated-title.rst"
+        symlinks[3] = "./test/tag/title/some-nice-title.rst"
+
+        assert.Equal(t, tfiles, files)
+        assert.Equal(t, tsymlinks, symlinks)
 }
