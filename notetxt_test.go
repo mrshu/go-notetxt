@@ -79,3 +79,14 @@ func TestDirListing(t *testing.T) {
         assert.Equal(t, tfiles, files)
         assert.Equal(t, tsymlinks, symlinks)
 }
+
+func TestDirNoteParsing(t *testing.T) {
+        notes, _ := ParseDir("./test")
+
+        assert.Equal(t, len(notes), 3)
+
+        assert.Equal(t, notes[0].name, "MyProject: A more complicated title")
+        assert.Equal(t, notes[1].name, "Some nice title")
+        assert.Equal(t, notes[2].name, "Just a tag")
+
+}

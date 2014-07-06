@@ -93,9 +93,25 @@ func ParseNote(notedir string, filename string, symlinks []string) (Note, error)
 
         note.name = string(line)
 
-
         note.categories = findCategories(filename, notedir, symlinks)
 
         return note, nil
+}
+
+func ParseDir(notedir string) ([]Note, error) {
+        var notes []Note
+
+        files, symlinks := readFilesInDir(notedir, "")
+
+        for _, f := range files {
+                note, err := ParseNote(notedir, f, symlinks)
+                if err != nil {
+                        return nil, err
+                }
+
+                notes = append(notes, note)
+        }
+
+        return notes, nil
 }
 
