@@ -2,6 +2,7 @@ package notetxt
 
 import (
         "testing"
+        "fmt"
         "github.com/stretchr/testify/assert"
 )
 
@@ -58,4 +59,8 @@ func TestFindCategories(t *testing.T) {
 
         assert.Equal(t, note, categories)
 
+}
+
+func TestDirListing(t *testing.T) {
+        fmt.Println(readFilesInDir("./test/", ""))
 }

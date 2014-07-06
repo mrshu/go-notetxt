@@ -33,6 +33,26 @@ type Note struct {
         categories []string
 }
 
+func readFilesInDir(dir string, subdir string) ([]string, []string) {
+        var symlinks []string
+        var files []string
+        contents, _ := ioutil.ReadDir(dir + "/" + subdir + "/")
+        for _, f := range contents {
+                if f.IsDir() {
+                        t_files, t_syms := readFilesInDir(dir, subdir + "/" + f.Name())
+                        files = append(files,t_files...)
+                        symlinks = append(symlinks, t_syms...)
+                } else {
+                        if f.Mode() & os.ModeSymlink != 0 {
+                                symlinks = append(symlinks, dir + "/" + subdir + "/" + f.Name())
+                        } else {
+                                files = append(files, dir + "/" + subdir + "/" + f.Name())
+                        }
+                }
+        }
+        return files, symlinks
+}
+
 func findCategories(notedir string, subdir string, name string) []string {
         var out []string
         files, _ := ioutil.ReadDir(notedir + "/" + subdir + "/")
