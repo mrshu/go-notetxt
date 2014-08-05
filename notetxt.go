@@ -15,9 +15,17 @@ var whitespace_clearer = regexp.MustCompile("\\s+")
 
 func TitleToFilename (title string) string {
 
+        // strip all non-conforming characters
         out := title_clearer.ReplaceAllString(title, "")
+
+        // title shall be lowercase
         out = strings.ToLower(out)
+
+        // every whitespace should become a space
+        // if there are multiple whitespace insert only one space as a result
         out = whitespace_clearer.ReplaceAllString(out, " ")
+
+        // every white space should become a dash (because they look nice)
         out = strings.Replace(out, " ", "-", -1)
         return out
 }
