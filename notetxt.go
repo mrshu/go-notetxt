@@ -24,7 +24,7 @@ func TitleToFilename (title string) string {
 
 var filename_regex = regexp.MustCompile("^[a-zA-Z0-9\\-\\.]+$")
 
-func MatchesNoteFilename(filename string) bool {
+func FilenameMatches(filename string) bool {
         return filename_regex.MatchString(filename)
 }
 

@@ -26,13 +26,13 @@ func TestTitleToFile (t *testing.T) {
 
 func TestFilenameMatch(t *testing.T) {
         in1 := "some-interesting-title.rst"
-        assert.Equal(t, MatchesNoteFilename(in1), true)
+        assert.Equal(t, FilenameMatches(in1), true)
 
         in2 := "filewithoutextension"
-        assert.Equal(t, MatchesNoteFilename(in2), true)
+        assert.Equal(t, FilenameMatches(in2), true)
 
         in3 := "non matching filename"
-        assert.Equal(t, MatchesNoteFilename(in3), false)
+        assert.Equal(t, FilenameMatches(in3), false)
 
 }
 
