@@ -4,6 +4,7 @@ import (
         "regexp"
         "strings"
         "os"
+        "fmt"
         "bufio"
         "errors"
         "path"
@@ -65,10 +66,15 @@ func readFilesInDir(dir string, subdir string) ([]string, []string) {
 func findTags(filename string, notedir string, symlinks []string) []string {
         var out []string
 
+        fmt.Println(notedir)
+        fmt.Println(filename)
+
         plain_tag := strings.Replace("./" + path.Dir(filename), notedir, "", 1)
         if len(plain_tag) != 0 {
                 out = append(out, plain_tag)
         }
+
+        fmt.Println(plain_tag)
 
         for _, f := range symlinks {
                 p, err := filepath.EvalSymlinks(f)
