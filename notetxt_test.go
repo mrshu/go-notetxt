@@ -2,8 +2,15 @@ package notetxt
 
 import (
         "testing"
+        "path/filepath"
         "github.com/stretchr/testify/assert"
 )
+
+var testdir string
+
+func init() {
+        testdir, _ = filepath.Abs("./test")
+}
 
 func TestTitleToFile (t *testing.T) {
 
@@ -37,8 +44,10 @@ func TestFilenameMatch(t *testing.T) {
 }
 
 func TestNoteParsing(t *testing.T) {
-        _, symlinks := readFilesInDir("./test", "")
-        var note, err = ParseNote("./test", "./test/some-nice-title.rst", symlinks)
+        _, symlinks := readFilesInDir(testdir, "")
+        file, _ := filepath.Abs("./test/some-nice-title.rst")
+
+        var note, err = ParseNote(testdir, file, symlinks)
 
         tags := make([]string, 2)
         tags[0] = "/tag/general"
@@ -46,13 +55,15 @@ func TestNoteParsing(t *testing.T) {
 
         assert.Equal(t, err, nil)
         assert.Equal(t, note.Name, "Some nice title")
-        assert.Equal(t, note.Filename, "./test/some-nice-title.rst")
+        assert.Equal(t, note.Filename, file)
         assert.Equal(t, note.Tags, tags)
 }
 
 func TestFindTags(t *testing.T) {
-        _, symlinks := readFilesInDir("./test", "")
-        var note = findTags("./test/some-nice-title.rst", "./test", symlinks)
+        _, symlinks := readFilesInDir(testdir, "")
+        file, _ := filepath.Abs("./test/some-nice-title.rst")
+
+        var note = findTags(file, testdir, symlinks)
 
         tags := make([]string, 2)
         tags[0] = "/tag/general"
@@ -60,33 +71,34 @@ func TestFindTags(t *testing.T) {
 
         assert.Equal(t, note, tags)
 
+        another_file, _ := filepath.Abs("./test/tag/general/just-a-tag.rst")
 
-        var another_note = findTags("./test/tag/general/just-a-tag.rst", "./test", symlinks)
+        var another_note = findTags(another_file, testdir, symlinks)
 
         assert.Equal(t, len(another_note), 1)
 
 }
 
 func TestDirListing(t *testing.T) {
-        tfiles, tsymlinks := readFilesInDir("./test", "")
+        tfiles, tsymlinks := readFilesInDir(testdir, "")
 
         files := make([]string, 3)
-        files[0] = "./test/myproject-a-more-complicated-title.rst"
-        files[1] = "./test/some-nice-title.rst"
-        files[2] = "./test/tag/general/just-a-tag.rst"
+        files[0], _ = filepath.Abs("./test/myproject-a-more-complicated-title.rst")
+        files[1], _ = filepath.Abs("./test/some-nice-title.rst")
+        files[2], _ = filepath.Abs("./test/tag/general/just-a-tag.rst")
 
         symlinks := make([]string, 4)
-        symlinks[0] = "./test/tag/general/some-nice-title.rst"
-        symlinks[1] = "./test/tag/project/myproject-a-more-complicated-title.rst"
-        symlinks[2] = "./test/tag/title/myproject-a-more-complicated-title.rst"
-        symlinks[3] = "./test/tag/title/some-nice-title.rst"
+        symlinks[0], _ = filepath.Abs("./test/tag/general/some-nice-title.rst")
+        symlinks[1], _ = filepath.Abs("./test/tag/project/myproject-a-more-complicated-title.rst")
+        symlinks[2], _ = filepath.Abs("./test/tag/title/myproject-a-more-complicated-title.rst")
+        symlinks[3], _ = filepath.Abs("./test/tag/title/some-nice-title.rst")
 
         assert.Equal(t, tfiles, files)
         assert.Equal(t, tsymlinks, symlinks)
 }
 
 func TestDirNoteParsing(t *testing.T) {
-        notes, _ := ParseDir("./test")
+        notes, _ := ParseDir(testdir)
 
         assert.Equal(t, len(notes), 3)
 

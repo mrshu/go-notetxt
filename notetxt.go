@@ -4,7 +4,7 @@ import (
         "regexp"
         "strings"
         "os"
-        "fmt"
+//        "fmt"
         "bufio"
         "errors"
         "path"
@@ -66,15 +66,10 @@ func readFilesInDir(dir string, subdir string) ([]string, []string) {
 func findTags(filename string, notedir string, symlinks []string) []string {
         var out []string
 
-        fmt.Println(notedir)
-        fmt.Println(filename)
-
-        plain_tag := strings.Replace("./" + path.Dir(filename), notedir, "", 1)
+        plain_tag := strings.Replace(path.Dir(filename), notedir, "", 1)
         if len(plain_tag) != 0 {
                 out = append(out, plain_tag)
         }
-
-        fmt.Println(plain_tag)
 
         for _, f := range symlinks {
                 p, err := filepath.EvalSymlinks(f)
@@ -82,8 +77,8 @@ func findTags(filename string, notedir string, symlinks []string) []string {
                         panic(err);
                 }
 
-                if "./" + p == filename {
-                        out = append(out, strings.Replace("./" + path.Dir(f), notedir, "", 1))
+                if p == filename {
+                        out = append(out, strings.Replace(path.Dir(f), notedir, "", 1))
                 }
         }
 
@@ -121,6 +116,7 @@ func ParseNote(notedir string, filename string, symlinks []string) (Note, error)
 func ParseDir(notedir string) ([]Note, error) {
         var notes []Note
 
+        notedir, _ = filepath.Abs(notedir)
         files, symlinks := readFilesInDir(notedir, "")
 
         for _, f := range files {
