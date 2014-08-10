@@ -45,14 +45,14 @@ func TestNoteParsing(t *testing.T) {
         tags[1] = "/tag/title"
 
         assert.Equal(t, err, nil)
-        assert.Equal(t, note.name, "Some nice title")
-        assert.Equal(t, note.filename, "./test/some-nice-title.rst")
-        assert.Equal(t, note.tags, tags)
+        assert.Equal(t, note.Name, "Some nice title")
+        assert.Equal(t, note.Filename, "./test/some-nice-title.rst")
+        assert.Equal(t, note.Tags, tags)
 }
 
-func TestFindCategories(t *testing.T) {
+func TestFindTags(t *testing.T) {
         _, symlinks := readFilesInDir("./test", "")
-        var note = findCategories("./test/some-nice-title.rst", "./test", symlinks)
+        var note = findTags("./test/some-nice-title.rst", "./test", symlinks)
 
         tags := make([]string, 2)
         tags[0] = "/tag/general"
@@ -85,8 +85,10 @@ func TestDirNoteParsing(t *testing.T) {
 
         assert.Equal(t, len(notes), 3)
 
-        assert.Equal(t, notes[0].name, "MyProject: A more complicated title")
-        assert.Equal(t, notes[1].name, "Some nice title")
-        assert.Equal(t, notes[2].name, "Just a tag")
+        assert.Equal(t, notes[0].Name, "MyProject: A more complicated title")
+        assert.Equal(t, notes[1].Name, "Some nice title")
+        assert.Equal(t, notes[2].Name, "Just a tag")
 
+        assert.Equal(t, len(notes[2].Tags), 1)
+        //assert.Equal(t, notes[2].Tags[0], "/tag/general")
 }

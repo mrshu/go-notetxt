@@ -62,7 +62,7 @@ func readFilesInDir(dir string, subdir string) ([]string, []string) {
         return files, symlinks
 }
 
-func findCategories(filename string, notedir string, symlinks []string) []string {
+func findTags(filename string, notedir string, symlinks []string) []string {
         var out []string
         for _, f := range symlinks {
                 p, err := filepath.EvalSymlinks(f)
@@ -101,7 +101,7 @@ func ParseNote(notedir string, filename string, symlinks []string) (Note, error)
 
         note.Name = string(line)
 
-        note.Tags = findCategories(filename, notedir, symlinks)
+        note.Tags = findTags(filename, notedir, symlinks)
 
         return note, nil
 }
