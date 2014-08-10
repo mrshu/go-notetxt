@@ -39,7 +39,7 @@ func FilenameMatches(filename string) bool {
 type Note struct {
         name string
         filename string
-        categories []string
+        tags []string
 }
 
 func readFilesInDir(dir string, subdir string) ([]string, []string) {
@@ -101,7 +101,7 @@ func ParseNote(notedir string, filename string, symlinks []string) (Note, error)
 
         note.name = string(line)
 
-        note.categories = findCategories(filename, notedir, symlinks)
+        note.tags = findCategories(filename, notedir, symlinks)
 
         return note, nil
 }

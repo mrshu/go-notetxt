@@ -40,25 +40,25 @@ func TestNoteParsing(t *testing.T) {
         _, symlinks := readFilesInDir("./test", "")
         var note, err = ParseNote("./test", "./test/some-nice-title.rst", symlinks)
 
-        categories := make([]string, 2)
-        categories[0] = "/tag/general"
-        categories[1] = "/tag/title"
+        tags := make([]string, 2)
+        tags[0] = "/tag/general"
+        tags[1] = "/tag/title"
 
         assert.Equal(t, err, nil)
         assert.Equal(t, note.name, "Some nice title")
         assert.Equal(t, note.filename, "./test/some-nice-title.rst")
-        assert.Equal(t, note.categories, categories)
+        assert.Equal(t, note.tags, tags)
 }
 
 func TestFindCategories(t *testing.T) {
         _, symlinks := readFilesInDir("./test", "")
         var note = findCategories("./test/some-nice-title.rst", "./test", symlinks)
 
-        categories := make([]string, 2)
-        categories[0] = "/tag/general"
-        categories[1] = "/tag/title"
+        tags := make([]string, 2)
+        tags[0] = "/tag/general"
+        tags[1] = "/tag/title"
 
-        assert.Equal(t, note, categories)
+        assert.Equal(t, note, tags)
 
 }
 
