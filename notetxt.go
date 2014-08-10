@@ -37,9 +37,9 @@ func FilenameMatches(filename string) bool {
 }
 
 type Note struct {
-        name string
-        filename string
-        tags []string
+        Name string
+        Filename string
+        Tags []string
 }
 
 func readFilesInDir(dir string, subdir string) ([]string, []string) {
@@ -80,7 +80,7 @@ func findCategories(filename string, notedir string, symlinks []string) []string
 
 func ParseNote(notedir string, filename string, symlinks []string) (Note, error) {
         var note = Note{}
-        note.filename = filename
+        note.Filename = filename
 
         f, err := os.Open(filename)
         if err != nil {
@@ -99,9 +99,9 @@ func ParseNote(notedir string, filename string, symlinks []string) (Note, error)
                 return note, errors.New("Buffer reader too small for the name of the note.")
         }
 
-        note.name = string(line)
+        note.Name = string(line)
 
-        note.tags = findCategories(filename, notedir, symlinks)
+        note.Tags = findCategories(filename, notedir, symlinks)
 
         return note, nil
 }
