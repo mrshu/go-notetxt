@@ -60,6 +60,11 @@ func TestFindTags(t *testing.T) {
 
         assert.Equal(t, note, tags)
 
+
+        var another_note = findTags("./test/tag/general/just-a-tag.rst", "./test", symlinks)
+
+        assert.Equal(t, len(another_note), 1)
+
 }
 
 func TestDirListing(t *testing.T) {
@@ -90,5 +95,5 @@ func TestDirNoteParsing(t *testing.T) {
         assert.Equal(t, notes[2].Name, "Just a tag")
 
         assert.Equal(t, len(notes[2].Tags), 1)
-        //assert.Equal(t, notes[2].Tags[0], "/tag/general")
+        assert.Equal(t, notes[2].Tags[0], "/tag/general")
 }

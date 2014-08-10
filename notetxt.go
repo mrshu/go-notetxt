@@ -64,6 +64,12 @@ func readFilesInDir(dir string, subdir string) ([]string, []string) {
 
 func findTags(filename string, notedir string, symlinks []string) []string {
         var out []string
+
+        plain_tag := strings.Replace("./" + path.Dir(filename), notedir, "", 1)
+        if len(plain_tag) != 0 {
+                out = append(out, plain_tag)
+        }
+
         for _, f := range symlinks {
                 p, err := filepath.EvalSymlinks(f)
                 if err != nil {
