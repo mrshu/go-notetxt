@@ -132,7 +132,7 @@ func ParseDir(notedir string) ([]Note, error) {
 }
 
 
-func CreateNote(title string, tag string, dir string) error {
+func CreateNote(title string, tag string, dir string) (string, error) {
         spacer := "\n" + strings.Repeat("=", len(title))
         text := title + spacer
 
@@ -142,14 +142,14 @@ func CreateNote(title string, tag string, dir string) error {
         file := fmt.Sprintf("%s/%s.rst", directory, TitleToFilename(title))
 
         if _, err := os.Stat(file); err == nil {
-                return errors.New("Notefile already exists. " +
+                return "", errors.New("Notefile already exists. " +
                                 "You can still edit it if you want.")
         }
 
         e := ioutil.WriteFile(file, []byte(text), 0644)
         if e != nil {
-                return e
+                return "", e
         }
 
-        return nil
+        return file, nil
 }
