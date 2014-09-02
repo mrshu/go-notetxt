@@ -142,8 +142,8 @@ func CreateNote(title string, tag string, dir string) (string, error) {
         file := fmt.Sprintf("%s/%s.rst", directory, TitleToFilename(title))
 
         if _, err := os.Stat(file); err == nil {
-                return "", errors.New("Notefile already exists. " +
-                                "You can still edit it if you want.")
+                return "", errors.New("Notefile '" + file + "' already exists. " +
+                                        "You can still edit it if you want.")
         }
 
         e := ioutil.WriteFile(file, []byte(text), 0644)
