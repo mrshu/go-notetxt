@@ -132,8 +132,8 @@ func ParseNote(notedir string, filename string, symlinks []string) (Note, error)
         return note, nil
 }
 
-func ParseDir(notedir string) ([]Note, error) {
-        var notes []Note
+func ParseDir(notedir string) (NoteList, error) {
+        var notes NoteList
 
         notedir, _ = filepath.Abs(notedir)
         files, symlinks := readFilesInDir(notedir, "")
