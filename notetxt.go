@@ -137,7 +137,10 @@ func CreateNote(title string, tag string, dir string) (string, error) {
         text := title + spacer
 
         directory := fmt.Sprintf("%s/%s", dir, tag)
-        os.MkdirAll(directory, 755)
+        err := os.MkdirAll(directory, 755)
+        if err != nil {
+                return "", err
+        }
 
         file := fmt.Sprintf("%s/%s.rst", directory, TitleToFilename(title))
 
@@ -152,4 +155,22 @@ func CreateNote(title string, tag string, dir string) (string, error) {
         }
 
         return file, nil
+}
+
+func TagNote(file string, tag string, dir string) error {
+        directory := fmt.Sprintf("%s/%s", dir, tag)
+        err := os.MkdirAll(directory, 755)
+        if err != nil {
+                return err
+        }
+
+        filename := filepath.Base(file)
+        newpath := fmt.Sprintf("%s/%s/%s", dir, tag, filename)
+
+        err = os.Link(file, newpath)
+        if err != nil {
+                return err
+        }
+
+        return nil
 }
