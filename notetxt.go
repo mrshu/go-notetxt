@@ -44,6 +44,11 @@ type Note struct {
         Tags []string
 }
 
+func (note Note) Matches(text string) bool {
+        match, _ := regexp.MatchString("(?i)" + text, note.Name + " " + strings.Join(note.Tags, " "))
+        return match
+}
+
 func readFilesInDir(dir string, subdir string) ([]string, []string) {
         var symlinks []string
         var files []string
