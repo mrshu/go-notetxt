@@ -62,6 +62,12 @@ func (notes NoteList) FilterBy(text string) (NoteList) {
         return out
 }
 
+func (notes NoteList) Print() {
+        for i, note := range notes {
+                fmt.Printf("%d %s - %v\n", i, note.Name, note.Tags)
+        }
+}
+
 func readFilesInDir(dir string, subdir string) ([]string, []string) {
         var symlinks []string
         var files []string
