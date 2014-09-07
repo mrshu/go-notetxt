@@ -167,7 +167,7 @@ func TagNote(file string, tag string, dir string) error {
         filename := filepath.Base(file)
         newpath := fmt.Sprintf("%s/%s/%s", dir, tag, filename)
 
-        err = os.Link(file, newpath)
+        err = os.Symlink(file, newpath)
         if err != nil {
                 return err
         }
