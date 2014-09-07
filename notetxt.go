@@ -44,9 +44,22 @@ type Note struct {
         Tags []string
 }
 
+
+type NoteList []Note
+
 func (note Note) Matches(text string) bool {
         match, _ := regexp.MatchString("(?i)" + text, note.Name + " " + strings.Join(note.Tags, " "))
         return match
+}
+
+func (notes NoteList) FilterBy(text string) (NoteList) {
+        var out NoteList
+        for _, note := range notes {
+            if note.Matches(text) {
+                    out = append(out, note)
+            }
+        }
+        return out
 }
 
 func readFilesInDir(dir string, subdir string) ([]string, []string) {
