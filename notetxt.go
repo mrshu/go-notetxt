@@ -162,8 +162,8 @@ func CreateNote(title string, tag string, dir string) (string, error) {
         text := title + spacer
 
         directory := fmt.Sprintf("%s/%s", dir, tag)
-        err := os.MkdirAll(directory, 755)
-        if err != nil {
+
+        if err := os.MkdirAll(directory, 755); err != nil {
                 return "", err
         }
 
@@ -184,16 +184,16 @@ func CreateNote(title string, tag string, dir string) (string, error) {
 
 func TagNote(file string, tag string, dir string) error {
         directory := fmt.Sprintf("%s/%s", dir, tag)
-        err := os.MkdirAll(directory, 755)
-        if err != nil {
+
+        if err := os.MkdirAll(directory, 755); err != nil {
                 return err
         }
 
         filename := filepath.Base(file)
         newpath := fmt.Sprintf("%s/%s/%s", dir, tag, filename)
 
-        err = os.Symlink(file, newpath)
-        if err != nil {
+
+        if err := os.Symlink(file, newpath); err != nil {
                 return err
         }
 
